@@ -1,7 +1,7 @@
 import random
 def game():
     choices=["r","p","s"]
-    player=input("Enter your choice(R,P or S)")
+    player=input("Enter your choice(r,p or s)")
     computer=random.choice(choices)
     print(f"The computer picked {computer}")
     if player==computer:
@@ -9,7 +9,7 @@ def game():
     elif (player=="r" and computer=="s") or \
         (player=="p" and computer=="r") or \
         (player=="s" and computer=="p"):
-        print("You win")
+        print("You beat the system! Congrats")
     else:
         print("You lose,the computer wins!")
 if __name__=="__main__":
