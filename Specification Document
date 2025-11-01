@@ -1,4 +1,4 @@
-I am using Python. I can also use SQL and R but out of the two,I am more proficient in SQL.
+I am using Python and I am proficient in it. I can also use SQL and R but out of the two,I am more proficient in SQL.
 My study program is Bachelor of Science(Bsc)
 Algorithms I will use:
 Markov Chain (Order-1 or Order-2):
@@ -7,8 +7,9 @@ Trie:
 (as suggested by my supervisor).
 Randomization:
 To introduce controlled randomness in the AI’s decisions to avoid predictability.
+Or reinforced learning algorithms,as ive mentioned,I am not sure which path to go down yet.
 Data Structures:
-Lists, dictionaries (for probability tables), and possibly a trie-like structure for move history.
+Lists, dictionaries (for probability tables), and a trie-like structure for move history.
 Problem I am solving:The problem is to create an AI that can learn and adapt to a human player’s strategy in the game of Rock–Paper–Scissors.
 Inputs:Instead of playing randomly, the AI will analyze the player’s previous moves and attempt to predict the next move to increase its chances of winning.
 The program receives user input each round: “r”, “p”, or “s” (for rock, paper, or scissors).The program stores this move in a history list.The AI then uses this history to update its Markov Chain transition probabilities or reinforced learning and make a prediction of the player’s next move.Based on the prediction, the computer selects the counter-move.
