@@ -10,6 +10,8 @@ class RPS_AI:
         self.prev_move=cur_move
 
     def prediction(self):
+        if self.prev_move is None:
+            return random.choice(['r','p','s'])
         next_count=self.sequence[self.prev_move]
         total=sum(next_count.values())
         if total==0:
