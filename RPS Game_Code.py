@@ -1,4 +1,4 @@
-from AI_Code import RPS_AI
+from ai_code import RPS_AI
 
 def game():
     ai=RPS_AI()
