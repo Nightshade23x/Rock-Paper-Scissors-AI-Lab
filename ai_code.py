@@ -1,4 +1,6 @@
 import random
+from move_storage import load_data,update_data
+
 class RPS_AI:
     """
     Markov chain will predict the player's next move based on their historical playing style and counter it
@@ -7,7 +9,7 @@ class RPS_AI:
         """
         sequence is essentially a transition matrix which will track how many times each move choice is followed by another
         """
-        self.sequence={choice:{'r':0,'p':0,'s':0} for choice in ['r','p','s']}
+        self.sequence=load_data()
         #for sequnce,each prev move maps to how many times the player played either one of the choices afterwards
         self.prev_move=None#in the beginning,we have no prev move
 
@@ -16,7 +18,7 @@ class RPS_AI:
         Record the player's current move and update the matrix
         """
         if self.prev_move:
-            self.sequence[self.prev_move][cur_move]+=1
+            update_data(self.sequence,self.prev_move,cur_move)
         self.prev_move=cur_move
 
     def prediction(self):
