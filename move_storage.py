@@ -8,9 +8,9 @@ def load_data():
         with open(FILE_PATH, "r") as f:
             return json.load(f)
     return {
-        "rock": {"rock": 0, "paper": 0, "scissors": 0},
-        "paper": {"rock": 0, "paper": 0, "scissors": 0},
-        "scissors": {"rock": 0, "paper": 0, "scissors": 0}
+        "r": {"r": 0, "p": 0, "s": 0},
+        "p": {"r": 0, "p": 0, "s": 0},
+        "s": {"r": 0, "p": 0, "s": 0}
     }
 
 def save_data(data):
