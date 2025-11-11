@@ -1,10 +1,15 @@
 import unittest
+import os
 from ai_code import RPS_AI
 
 class Testing(unittest.TestCase):
     def setUp(self):
         self.ai=RPS_AI()
-    
+        self.test_file="tests.json"#making a new json file to store tests,i dont want to pollute my storage file
+        if os.path.exists(self.test_file):
+            os.remove(self.test_file)
+        self.ai=RPS_AI(file_path=self.test_file)
+
     def test_store_moves(self):
         #simulated p and then s
         self.ai.prev_move='p'
@@ -18,8 +23,8 @@ class Testing(unittest.TestCase):
         self.assertIn(predicted,['r','p','s'])
     
     def test_prediciton_after(self):
-        # simulate p followed by s 5 times
-        for x in range(5):
+        # simulate p followed by s 100 times
+        for x in range(100):
             self.ai.prev_move='p'
             self.ai.store_moves('s')
         self.ai.prev_move='p'
@@ -32,5 +37,6 @@ class Testing(unittest.TestCase):
         self.ai.prediction=lambda:'r'#this is for a mock prediction result
         ai_move=self.ai.choose_ai_move()
         self.assertEqual(ai_move,'p')
+
 if __name__=="__main__":
     unittest.main()

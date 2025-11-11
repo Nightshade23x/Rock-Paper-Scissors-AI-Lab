@@ -1,11 +1,9 @@
 import json
 import os
 
-FILE_PATH = "moves.json"
-
-def load_data():
-    if os.path.exists(FILE_PATH):
-        with open(FILE_PATH, "r") as f:
+def load_data(file_path="moves.json"):
+    if os.path.exists(file_path):
+        with open(file_path, "r") as f:
             return json.load(f)
     return {
         "r": {"r": 0, "p": 0, "s": 0},
@@ -13,11 +11,11 @@ def load_data():
         "s": {"r": 0, "p": 0, "s": 0}
     }
 
-def save_data(data):
-    with open(FILE_PATH, "w") as f:
+def save_data(data,file_path="moves.json"):
+    with open(file_path, "w") as f:
         json.dump(data, f)
 
-def update_data(data, prev_move, curr_move):
+def update_data(data, prev_move, curr_move,file_path="moves.json"):
     if prev_move:
         data[prev_move][curr_move] += 1
         save_data(data)

@@ -5,11 +5,12 @@ class RPS_AI:
     """
     Markov chain will predict the player's next move based on their historical playing style and counter it
     """
-    def __init__(self):
+    def __init__(self,file_path="moves.json"):
         """
         sequence is essentially a transition matrix which will track how many times each move choice is followed by another
         """
-        self.sequence=load_data()
+        self.file_path=file_path
+        self.sequence=load_data(self.file_path)
         #for sequnce,each prev move maps to how many times the player played either one of the choices afterwards
         self.prev_move=None#in the beginning,we have no prev move
 
