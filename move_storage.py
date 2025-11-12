@@ -1,21 +1,24 @@
 import json
-import os
 
-def load_data(file_path="moves.json"):
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
-            return json.load(f)
-    return {
-        "r": {"r": 0, "p": 0, "s": 0},
-        "p": {"r": 0, "p": 0, "s": 0},
-        "s": {"r": 0, "p": 0, "s": 0}
-    }
+def load_data(file_path):
+    """Load move data from the JSON file."""
+    try:
+        with open(file_path, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
-def save_data(data,file_path="moves.json"):
-    with open(file_path, "w") as f:
-        json.dump(data, f)
+def update_data(data, prev_move, curr_move):
+    """Update the transition count safely, creating keys if they don’t exist."""
+    # If the previous move sequence doesn't exist, create it
+    if prev_move not in data:
+        data[prev_move] = {'r': 0, 'p': 0, 's': 0}
+    # If the current move key doesn't exist (shouldn’t happen, but safe)
+    if curr_move not in data[prev_move]:
+        data[prev_move][curr_move] = 0
+    # Update the transition count
+    data[prev_move][curr_move] += 1
 
-def update_data(data, prev_move, curr_move,file_path="moves.json"):
-    if prev_move:
-        data[prev_move][curr_move] += 1
-        save_data(data)
+    # Save back to the file
+    with open("moves.json", "w") as file:
+        json.dump(data, file, indent=4)
