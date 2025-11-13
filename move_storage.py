@@ -18,7 +18,6 @@ def update_data(data, prev_move, curr_move,file_path):
         data[prev_move][curr_move] = 0
     # Update the transition count
     data[prev_move][curr_move] += 1
-
     # Save back to the file
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)

@@ -12,7 +12,7 @@ class Testing(unittest.TestCase):
 
     def test_store_moves(self):
         #simulated p and then s
-        self.ai.prev_move=['p']
+        self.ai.prev_moves=['p']
         self.ai.store_moves('s')
         #check if the matrix is working and storing values
         self.assertEqual(self.ai.sequence['p']['s'],1)
