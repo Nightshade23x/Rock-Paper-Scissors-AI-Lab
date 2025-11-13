@@ -4,7 +4,7 @@ from move_storage import load_data,update_data
 class RPS_AI:
     """
     A single Markov chain will predict the player's next move based on their previous moves of a given memory length
-    This forms the base for Multi RPS AI...each RPS AI uses a different memory lenght i.e (1,2,3,4,5 etc) to capture
+    This forms the base for Multi RPS AI...each RPS AI uses a different memory length i.e (1,2,3,4,5 etc) to capture
     different levels of player behaviour patterns.
     """
     def __init__(self,file_path="moves.json",memory_length=1):
@@ -13,7 +13,7 @@ class RPS_AI:
         file path leads to the json file storing the move transitions
         """
         self.file_path=file_path
-        self.memory_lenght=memory_length
+        self.memory_length=memory_length
         self.sequence=load_data(self.file_path)
         self.prev_moves=[]#store the player's last 'memory length' moves
 
@@ -21,12 +21,12 @@ class RPS_AI:
         """
         Update the matrix with the latest move played.
         """
-        if len(self.prev_moves)==self.memory_lenght:#only start recording once we have enough previous moves.
+        if len(self.prev_moves)==self.memory_length:#only start recording once we have enough previous moves.
             key=''.join(self.prev_moves)
-            update_data(self.sequence,key,cur_move)
+            update_data(self.sequence,key,cur_move,self.file_path)
         #updates the move history so it will only keep the last memory length moves.
         self.prev_moves.append(cur_move)
-        if len(self.prev_moves)>self.memory_lenght:
+        if len(self.prev_moves)>self.memory_length:
             self.prev_moves.pop(0)
 
     def prediction(self):
@@ -34,7 +34,7 @@ class RPS_AI:
         This is where the magic happens,the player's move is predicted based on transition probabilities
         If enough data isnt available,a random move will be chosen.
         """
-        if len(self.prev_moves)<self.memory_lenght:
+        if len(self.prev_moves)<self.memory_length:
             return random.choice(['r','p','s'])
         key=''.join(self.prev_moves)
         next_count=self.sequence.get(key,{'r':0,'p':0,'s':0})

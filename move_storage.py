@@ -8,7 +8,7 @@ def load_data(file_path):
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
-def update_data(data, prev_move, curr_move):
+def update_data(data, prev_move, curr_move,file_path):
     """Update the transition count safely, creating keys if they don’t exist."""
     # If the previous move sequence doesn't exist, create it
     if prev_move not in data:
@@ -20,5 +20,5 @@ def update_data(data, prev_move, curr_move):
     data[prev_move][curr_move] += 1
 
     # Save back to the file
-    with open("moves.json", "w") as file:
+    with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
