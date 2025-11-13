@@ -43,7 +43,7 @@ class RPS_AI:
             return random.choice(['r','p','s'])
         #otherwise if all is well,return the move that has happened most often after the move the player just played
         return max(next_count,key=next_count.get)
-    
+
     def choose_ai_move(self):
         """
         Choose the AI's move that will beat the player's move(well predicted one)
@@ -51,7 +51,6 @@ class RPS_AI:
         #define which move beats which(logic behind normal RPS)
         counters={'r':'p','p':'s','s':'r'}
         return counters[self.prediction()]
-    
 
 #BELOW IS THE IMPROVED VERSION OF THE AI SYSTEM.
 #INSTEAD OF RELYING ON ONE FIXED MARKOV MODEL,IT COMBINES MULTIPLE RPS_AI MODELS WITH DIFFERENT MEMORY LENGTHS
@@ -62,16 +61,19 @@ class Multi_RPS_AI:
     As mentioned above,we will use multiple models.We will evaluate each model's recent performance in terms of wins and loses
     and choose the best performing model's prediction for the next move.
     """
-    
+
     def __init__(self,file_path="moves.json",max_m=5,focus_length=5):
         """
         max_m is the number of single models
         focus length is how many of the last few rounds will be used to compare performance
         """
-        self.models=[RPS_AI(file_path,m) for m in range(1,max_m+1)]
+        self.models=[
+            RPS_AI(file_path,m)
+            for m in range(1,max_m+1)
+        ]
         self.focus_length=focus_length
         self.scores=[[] for i in range(max_m)]#this will store the recent results for each AI
-    
+
     def update_scores(self,result):
         """
         Update each model's score list based on the last game's results
@@ -82,7 +84,7 @@ class Multi_RPS_AI:
             self.scores[i].append(result)
             if len(self.scores[i])>self.focus_length:#keep only the last focus length results to stay relevant
                 self.scores[i].pop(0)
-    
+
     def best_ai(self):
         """
         Here is where we choose which model performed the best in the recent games
@@ -93,20 +95,19 @@ class Multi_RPS_AI:
             return random.choice(self.models)#if all are tied,pick randomly
         #find which model has the highest total score
         return self.models[totals.index(max(totals))]#return the best performing model
-    
+
     def get_move(self,player_history):
         """
         And here we will get the next move from the best -performing AI
         """
         ai=self.best_ai()#ask the ai for its predicted counter move
         return ai.choose_ai_move()
-    
+
     def update_all(self,player_move):
         """
-        After each round,update all of the models with the latest player moves so all models continue learning 
+        After each round,update all of the models with the latest player moves so all models continue learning
         """
         for ai in self.models:
             ai.store_moves(player_move)
-        
 
-    
+

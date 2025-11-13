@@ -3,6 +3,7 @@ import os
 from ai_code import RPS_AI,Multi_RPS_AI
 
 class Testing(unittest.TestCase):
+    """Tests for single model RPS_AI"""
     def setUp(self):
         self.ai=RPS_AI()
         self.test_file="tests_single.json"#making a new json file to store tests,i dont want to pollute my storage file
@@ -21,7 +22,7 @@ class Testing(unittest.TestCase):
         #no prev move yet,so prediciton should be random
         predicted=self.ai.prediction()
         self.assertIn(predicted,['r','p','s'])
-    
+
     def test_prediciton_after(self):
         # simulate p followed by s 100 times
         for x in range(100):
@@ -31,7 +32,7 @@ class Testing(unittest.TestCase):
         #since prev move is p,prediction should be s
         predicted=self.ai.prediction()
         self.assertEqual(predicted,'s')
-    
+
     def test_if_ai_wins(self):
         #if ai predicts r,then it should choose p,because p beats r
         self.ai.prediction=lambda:'r'#this is for a mock prediction result
@@ -39,6 +40,7 @@ class Testing(unittest.TestCase):
         self.assertEqual(ai_move,'p')
 
 class TestMultiRPSAI(unittest.TestCase):
+    """Tests for the multi rps ai system"""
 
     def setUp(self):
         self.test_file = "test_multi.json"
@@ -70,7 +72,6 @@ class TestMultiRPSAI(unittest.TestCase):
         # force model[0] to be best
         self.multi.models[0].prediction = lambda: "r"
         self.multi.scores[0] = [+1, +1, +1, +1, +1]
-
         move = self.multi.get_move(player_history=[])
         self.assertEqual(move, "p")   # p beats r
 
