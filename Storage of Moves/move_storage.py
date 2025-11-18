@@ -21,3 +21,4 @@ def update_data(data, prev_move, curr_move,file_path):
     # Save back to the file
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
+    return data

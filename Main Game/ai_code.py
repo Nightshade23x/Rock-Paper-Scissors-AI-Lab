@@ -23,7 +23,7 @@ class RPS_AI:
         """
         if len(self.prev_moves)==self.memory_length:#only start recording once we have enough previous moves.
             key=''.join(self.prev_moves)
-            update_data(self.sequence,key,cur_move,self.file_path)
+            self.sequence=update_data(self.sequence,key,cur_move,self.file_path)
         #updates the move history so it will only keep the last memory length moves.
         self.prev_moves.append(cur_move)
         if len(self.prev_moves)>self.memory_length:
