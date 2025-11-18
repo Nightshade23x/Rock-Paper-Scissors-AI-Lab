@@ -1,6 +1,11 @@
 import unittest
-import os
+import sys, os
+BASE = os.path.dirname(os.path.dirname(__file__))
+ai_path = os.path.join(BASE, "Main Game")
+sys.path.append(ai_path)
+
 from ai_code import RPS_AI
+
 """
 These tests ensure that the AI behaves predictibly when it encounters unsual state conditions
 such as inefficient move history or unexpected keys in the transition data.

@@ -1,5 +1,12 @@
+
 import unittest
-import os
+import sys, os
+
+ROOT = os.path.dirname(os.path.dirname(__file__))
+AI_PATH = os.path.join(ROOT, "Main Game")
+sys.path.insert(0, AI_PATH)
+
+
 from ai_code import Multi_RPS_AI
 
 """

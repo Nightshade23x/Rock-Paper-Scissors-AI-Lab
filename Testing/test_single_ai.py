@@ -1,6 +1,11 @@
-import unittest
-import os
+
 from ai_code import RPS_AI
+import unittest
+import sys, os
+
+ROOT = os.path.dirname(os.path.dirname(__file__))
+AI_PATH = os.path.join(ROOT, "Main Game")
+sys.path.insert(0, AI_PATH)
 
 class Testing(unittest.TestCase):
     """Tests for single model RPS_AI"""
