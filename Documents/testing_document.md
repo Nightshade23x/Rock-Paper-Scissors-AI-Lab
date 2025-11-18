@@ -4,6 +4,8 @@ Multi_RPS_AI — a multi-model system that evaluates several RPS_AI models with 
 
 My unit tests were designed to verify the correctness of these components in a reproducible manner. The tests focus on transition storage, prediction accuracy, model selection, and functional correctness.
 
+**a,b,c,d,e is from tests_multi_ai.py**
+
 **Testing the Multi-Model System (Multi_RPS_AI)**
 
 **a. Testing Model Creation (test_models_created)**
@@ -57,3 +59,43 @@ Assert that get_move() returns the counter 'p'
 
 Why:
 This validates the complete flow i.e prediciton to pick a model to choose the final move.
+
+**f and g are both from test_edge_cases.py**
+
+**f. Testing Prediction with Insufficient Previous Moves (test_empty_prev_moves)**
+Goal:
+Verify that the AI behaves correctly when there are fewer previous moves than the memory length requires.
+
+Method used:
+Create an RPS_AI model with memory_length=3, but do not provide enough moves to form a valid key.
+Call prediction() and ensure the returned move is one of r,p or s.
+
+Why:
+If the AI does not have enough history to form a sequence key, it should fall back to a safe,valid random choice rather than crashing.
+
+**g. Testing Behavior with Missing or Invalid Keys (test_missing_key_in_json)**
+Goal:
+Ensure that the AI can handle unexpected or invalid keys in its previous move history without failing.
+
+Method used:
+Manually set ai.prev_moves to an invalid value such as "x", which does not exist in the transition matrix.
+Call prediction() and assert that the returned move is still valid.
+
+Why:
+This simulates corrupted data or malformed previous-move sequences.
+The expected behavior is that the AI should not crash and should default to a safe random move.
+
+**h. Testing Multi-Round Learning Stability (test_multi_round_learning) FROM test_integration.py**
+Goal:
+Confirm that the multi-model system learns correctly over repeated rounds and that no model enters an invalid state.
+
+Method used:
+Create a temporary JSON file to store transition data.
+Initialize a Multi_RPS_AI instance using this file.
+Simulate a repeated pattern like r then p for 40 cycles, updating both transitions and scores.
+Retrieve the best-performing model after learning.
+Check that its prediction produces a valid move.
+
+Why:
+This ensures that long-term learning produces stable and valid output, and that the system does not break even when subjected to extended repetitive patterns.
+
