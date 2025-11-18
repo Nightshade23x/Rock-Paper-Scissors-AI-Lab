@@ -25,7 +25,7 @@ class TestEdgeCases(unittest.TestCase):
         """
         Tests how the AI responds when its prev move history form a key that does not exist
         in the matrix,eg invalid moves.This hopes to simulate corrupted data.
-        Expected behaviour is that the AI shouldnt crash,and fall back to random choice behaviour.
+    Expected behaviour is that the AI shouldnt crash,and fall back to random choice behaviour.
         """
         ai = RPS_AI()
         ai.prev_moves = ["x"]  # invalid key
