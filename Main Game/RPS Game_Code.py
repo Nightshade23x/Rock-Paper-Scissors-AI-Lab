@@ -5,11 +5,21 @@ def game():
     choices = ["r", "p", "s", "q"]
     player_history = []
 
+    # session stats
+    user_wins = 0
+    computer_wins = 0
+    ties = 0
+
     while True:
         player = input("Enter your choice (r, p, s) or q for stats: ").lower()
 
-        # Hnaldes quit option and shows stats of each model in the last 5 games.
+        # Handles quit option and shows stats of each model in the last 5 games.
         if player == "q":
+            print("\n Session Summary ")
+            print(f"User wins:      {user_wins}")
+            print(f"Computer wins:  {computer_wins}")
+            print(f"Ties:           {ties}")
+
             print("\nAI Model Statistics")
             for i, s in enumerate(ai.scores, start=1):
                 print(f"Memory {i}: {s}   sum = {sum(s)}")
@@ -31,12 +41,17 @@ def game():
         # Determine the result of the game
         if player == computer:
             print("It is a draw.")
+            ties += 1
+
         elif (player == "r" and computer == "s") or \
              (player == "p" and computer == "r") or \
              (player == "s" and computer == "p"):
             print("You beat the system! Congrats!")
+            user_wins += 1
+
         else:
             print("You lose, the computer wins!")
+            computer_wins += 1
 
         # Updating of models happens here
         ai.update_all(player)
