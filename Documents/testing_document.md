@@ -102,24 +102,21 @@ This ensures that long-term learning produces stable and valid output, and that 
 
 **Coverage Report Analysis**
 To evaluate how through my tests were, I used the Python coverage tool.
-The entire project contains 268 executable lines, out of which 101 lines were not executed, bringing coverage to 62%. The number seems like it is on the lower end, but the reason is given at file no 5.
+There are 178 statements to execute, and 3 were missed, bringing the overall coverage to approximately 98%.
 
 **Breakdown File by File**
 
 **1. ai_code.py- 100% coverage**
 All 47 statements were executed during testing. This shows that every branch of the prediction logic,score updating and model selection logic is covered by unit tests.
 
-**2. move_storage.py- 88%**
+**2. move_storage.py- 94%**
 The untested lines correspond to rarely triggered edge cases such as conditions that only occur when storage files are corrupted,and do no affect normal gameplay.
 
 **3. test files(test_single_ai.py,test_multi_ai.py,test_edgecases.py)**
-All of these files have above 94% coverage,with 2 files having 100%. This shows that the tests themselves executed fully.High coverage in the multi-model tests shows strong testing of the Markov chain models.
+All of these files have above 95% coverage,with 2 files having 100%. This shows that the tests themselves executed fully.High coverage in the multi-model tests shows strong testing of the Markov chain models.
 
-**4. test_integration.py - 95%coverage.**
+**4. test_integration.py - 100%coverage.**
 Only 1 line was not executed. This could be due to an error path that is intentionally hard to trigger, such as unexpected I/O failures during integration testing.
 
-**5. distutils hack file - 5% coverage****
-This is the file that brings down the overall average. This file is an automatically installed library file and is **NOT PART OF THE PROJECT**. So the low coverage does not affect the correctness of the other tests.
-
-**Conculsion**
-Excluding the hack file, the overall coverage is extremely strong. All core components are thoroughly been tested. The few lines that are untested relate only to non-essential edge cases, and do not have a huge impact on the main functionality of the overall project.
+**Conclusion**
+My coverage results showcase that all core modules including scoring logic, move storage, multi model systems are all well tested.The remaining untested statements are due to very rare edge cases that have no impact on the day to day running of the program.The coverage score provides a strong confidence in the stability and reliability of the project.
