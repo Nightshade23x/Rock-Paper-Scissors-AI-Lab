@@ -29,12 +29,12 @@ Check that each model’s prev_moves list was updated to ['p']
 Why:
 All submodels must learn simultaneously for fair performance comparison and selection of model per move.
 
-**c. Testing Score Updating (test_update_scores)**
-Goal: Ensure that each internal model stores recent results correctly.
+**c. Testing Score Updating (test_update_model_scores)**
+Goal: Ensure that update_scores() appends correct values of +1,-1 or 0 to all models,and ensures that the
+list represents the most recent game outcomes only.
 
 Method used:
-Apply +1 and -1 updates using update_scores(),and 0 for draw if needed.
-Check that every model’s score list contains [+1, -1]
+Call ai.update_scores([+1,-1]),and check that all models have the score of +1,-1 exactly
 
 Why:
 Correct scoring is required for determining the best-performing model.
