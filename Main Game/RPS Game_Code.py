@@ -2,7 +2,6 @@ from ai_code import Multi_RPS_AI
 
 def game():
     ai = Multi_RPS_AI()
-    choices = ["r", "p", "s", "q"]
     player_history = []
 
     # session stats
@@ -24,7 +23,8 @@ def game():
             for i, s in enumerate(ai.scores, start=1):
                 print(f"Memory {i}: {s}   sum = {sum(s)}")
             print(f"→ Best model: memory_length = {ai.best_ai().memory_length}")
-            continue
+
+            break   # quit after showing stats
 
         # handles invalid input
         if player not in ["r", "p", "s"]:
