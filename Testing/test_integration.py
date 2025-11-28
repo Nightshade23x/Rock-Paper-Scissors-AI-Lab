@@ -1,4 +1,3 @@
-
 import unittest
 import sys, os
 
@@ -41,9 +40,9 @@ class TestIntegration(unittest.TestCase):
         # simulate repeated pattern: player plays 'r' then 'p'
         for _ in range(40):
             ai.update_all('r')
-            ai.update_scores(-1)
+            ai.update_model_scores('r')
             ai.update_all('p')
-            ai.update_scores(-1)
+            ai.update_model_scores('p')
 
         # after enough learning, at least one model should predict properly
         best = ai.best_ai()

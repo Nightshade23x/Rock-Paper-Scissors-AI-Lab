@@ -55,7 +55,7 @@ def game():
 
         # Updating of models happens here
         ai.update_all(player)
-        ai.update_scores(player) 
+        ai.update_model_scores(player) 
 
 
 if __name__ == "__main__":

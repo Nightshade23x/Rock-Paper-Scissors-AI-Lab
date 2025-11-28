@@ -70,19 +70,21 @@ class Multi_RPS_AI:
             return 1  # model wins the game
         else:
             return -1  # model loses
-
-    def update_scores(self, player_move):
-        """Score each model individually based on THEIR predicted move.
-        Each model predicts independently using its own markov chain,and so I score
-        it based on how its prediction would have performed
+   
+    def update_model_scores(self,player_move):
         """
-        for i, model in enumerate(self.models):
-            ai_move = model.choose_ai_move()
-            r = self.score_model(ai_move, player_move)
-
+        Updates the performance scores for each AI model after each round.
+        +1 if the model's predicted move wins,0 if it draws,and -1 if it wold lose.
+        This score is added to the model's score histroy.Since focus length is 5,that is 
+        the number of scores kept for each model.
+        """
+        for i,model in enumerate(self.models):
+            ai_move=model.choose_ai_move()
+            r=self.score_model(ai_move,player_move)
             self.scores[i].append(r)
-            if len(self.scores[i]) > self.focus_length:
+            if len(self.scores[i])>self.focus_length:
                 self.scores[i].pop(0)
+
 
     def best_ai(self):
         """select the model with highest recent score sum.
@@ -95,7 +97,7 @@ class Multi_RPS_AI:
 
         return self.models[totals.index(max(totals))]
 
-    def get_move(self):
+    def get_move(self,player_history=None):
         """Get  a move from the best-performing model."""
         ai = self.best_ai()
         return ai.choose_ai_move()
