@@ -56,7 +56,37 @@ class TestMultiRPSAI(unittest.TestCase):
 
         move = self.multi.get_move()
         self.assertEqual(move, "p")  # p beats r
-
+    
+    def test_multi_handles_invalid_prev(self):
+        """
+        Ensures the multi model system remains stable even when one model contains corrupted history data.
+        """
+    # Simulate corrupted history in one model
+        self.multi.models[2].prev_moves = ["x", "y"]
+        move = self.multi.get_move()
+        # Should not crash; must return a valid move
+        self.assertIn(move, ["r", "p", "s"])
+    
+    def test_scores_trim_to_focus_length(self):
+        """
+        Verifies that the score lists for each model never exceed the defined focus length.After more than 'focus_length' updates, the score lists should be trimmed to maintain only the most recent scores.
+        """
+        # focus_length = 5 from setup
+        for _ in range(10):  # add more scores than the window
+            self.multi.update_model_scores("r")
+        # all models must have exactly focus_length items
+        for score_list in self.multi.scores:
+            self.assertEqual(len(score_list), 5)
+    
+    def test_best_ai_handles_ties(self):
+        """
+       Confirms that best_ai behaves correctly when 2 or more models have the same total score.In the event of a tie,the method should still return a valid model without any errors.
+        """
+    # force model 0 and 1 to have equal sums
+        self.multi.scores[0] = [1, 1, 1]
+        self.multi.scores[1] = [1, 1, 1]
+        best = self.multi.best_ai()
+        self.assertIn(best, [self.multi.models[0], self.multi.models[1]])
 
 if __name__ == "__main__":
     unittest.main()
