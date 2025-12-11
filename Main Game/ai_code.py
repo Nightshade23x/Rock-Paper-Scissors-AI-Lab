@@ -5,7 +5,7 @@ class RPS_AI:
     """
     A single Markov chain model that predicts the player's next move
     based on the last `memory_length` moves.
-    Note,this is the legacy model,scroll down to Multi_RPS_AI,that is in use right now.
+    RPS_AI is the core prediction engine used by all models
     """
 
     def __init__(self, file_path="moves.json", memory_length=1):
@@ -25,17 +25,37 @@ class RPS_AI:
             self.prev_moves.pop(0)
 
     def prediction(self):
-        """Predict the player's next move based on transition frequencies."""
+        """Predict the player's next move using prefix matching"""
+    # If not enough history for this model,then choose a random move
         if len(self.prev_moves) < self.memory_length:
             return random.choice(['r', 'p', 's'])
 
-        key = ''.join(self.prev_moves)
-        next_count = self.sequence.get(key, {'r': 0, 'p': 0, 's': 0})
+        prefix = ''.join(self.prev_moves)
 
-        if sum(next_count.values()) == 0:
+        # Collect all transitions whose key starts with the prefix
+        matched = []
+        for key, counts in self.sequence.items():
+            if key.startswith(prefix):
+                matched.append(counts)
+
+        # If no matching transitions found,use a random move
+        if not matched:
             return random.choice(['r', 'p', 's'])
 
-        return max(next_count, key=next_count.get)
+        # Aggregate counts from all matching keys
+        total = {'r': 0, 'p': 0, 's': 0}
+        for c in matched:
+            total['r'] += c.get('r', 0)
+            total['p'] += c.get('p', 0)
+            total['s'] += c.get('s', 0)
+
+        # If all zero,use a random move
+        if total['r'] == total['p'] == total['s'] == 0:
+            return random.choice(['r', 'p', 's'])
+
+        # Return move with highest frequency
+        return max(total, key=total.get)
+
 
     def choose_ai_move(self):
         """Return the AI move that beats the predicted player move."""
@@ -46,6 +66,7 @@ class RPS_AI:
 class Multi_RPS_AI:
     """
     Uses multiple RPS_AI models (different memory lengths).
+    It creates multiple RPS_AI predictors with different memory lenghts
     Each model is judged INDIVIDUALLY based on how its own prediction would have performed each round.
     """
 
@@ -98,7 +119,7 @@ class Multi_RPS_AI:
         return self.models[totals.index(max(totals))]
 
     def get_move(self,player_history=None):
-        """Get  a move from the best-performing model."""
+        """Get a move from the best-performing model."""
         ai = self.best_ai()
         return ai.choose_ai_move()
 
