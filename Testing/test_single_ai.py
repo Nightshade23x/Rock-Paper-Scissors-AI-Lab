@@ -1,11 +1,11 @@
 
-from ai_code import RPS_AI
 import unittest
 import sys, os
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 AI_PATH = os.path.join(ROOT, "Main Game")
 sys.path.insert(0, AI_PATH)
+from ai_code import RPS_AI
 
 class Testing(unittest.TestCase):
     """Tests for single model RPS_AI"""
@@ -43,3 +43,6 @@ class Testing(unittest.TestCase):
         self.ai.prediction=lambda:'r'#this is for a mock prediction result
         ai_move=self.ai.choose_ai_move()
         self.assertEqual(ai_move,'p')
+
+if __name__ == "__main__":
+    unittest.main()

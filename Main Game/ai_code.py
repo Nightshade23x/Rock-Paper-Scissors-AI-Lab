@@ -89,6 +89,22 @@ class Multi_RPS_AI:
         self.models = [RPS_AI(file_path, m) for m in range(1, max_m + 1)]
         self.focus_length = focus_length
         self.scores = [[] for _ in range(max_m)]  # scores per model
+    
+    def get_move(self):
+        """Get a move from the best-performing model.
+        Returns the AI's chosen move
+        """
+        ai = self.best_ai()
+        return ai.choose_ai_move()
+
+    def process_round(self, player_move):
+        """
+        Process a single game round.
+        First scores all models based on their predictions,then updates all models with the player's move.
+        """
+        self.update_model_scores(player_move)
+        self.update_all(player_move)
+
 
     def score_model(self, ai_move, player_move):
         """
@@ -122,22 +138,18 @@ class Multi_RPS_AI:
 
 
     def best_ai(self):
-        """select the model with highest recent score sum.
-        Note,if all models have a tie,a random model is picked
+        """
+        Select the model with the highest recent score sum.
+        If multiple models are tied for best performance,one of them is chosen at random.
         """
         totals = [sum(s[-self.focus_length:]) for s in self.scores]
+        max_score = max(totals)
 
-        if len(set(totals)) == 1:
-            return random.choice(self.models)
+        best_indices = [i for i, t in enumerate(totals) if t == max_score]
+        chosen_index = random.choice(best_indices)
+        return self.models[chosen_index]
 
-        return self.models[totals.index(max(totals))]
-
-    def get_move(self):
-        """Get a move from the best-performing model.
-        Returns the AI's chosen move
-        """
-        ai = self.best_ai()
-        return ai.choose_ai_move()
+   
 
     def update_all(self, player_move):
         """Update all models with the player's latest move
@@ -146,3 +158,5 @@ class Multi_RPS_AI:
         """
         for ai in self.models:
             ai.store_moves(player_move)
+
+    

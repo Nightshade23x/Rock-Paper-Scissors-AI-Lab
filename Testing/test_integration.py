@@ -49,3 +49,7 @@ class TestIntegration(unittest.TestCase):
         best.prev_moves = ["r"]
         prediction = best.prediction()
         self.assertIn(prediction, ["p", "r", "s"])
+
+if __name__ == "__main__":
+    unittest.main()
+

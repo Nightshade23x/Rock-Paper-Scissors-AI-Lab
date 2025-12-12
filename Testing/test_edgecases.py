@@ -36,3 +36,7 @@ class TestEdgeCases(unittest.TestCase):
         ai.prev_moves = ["x"]  # invalid key
         pred = ai.prediction()
         self.assertIn(pred, ["r", "p", "s"])
+
+if __name__ == "__main__":
+    unittest.main()
+
