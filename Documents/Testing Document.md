@@ -6,6 +6,10 @@ Multi_RPS_AI — a multi-model system that evaluates several RPS_AI models with 
 
 My unit tests were designed to verify the correctness of these components in a reproducible manner. The tests focus on transition storage, prediction accuracy, model selection, and functional correctness.
 
+**Test Input Types**
+
+The tests use a diverse range of inputs to validate both correctness and robustness. These include valid player moves which are r,p or s, deterministic repeated patterns to evaluate learning behavior, randomized early game states where insufficient history exists, and deliberately invalid inputs such as corrupted history keys used to simulate unexpected data or corrupt data. Long repetitive sequences are also used to assess stability, score trimming behavior, and long-term learning consistency.
+
 **Single Model Testing(test_single_ai.py)**
 
 **a. Move Storage Correctness(test_store_moves)**
@@ -247,6 +251,13 @@ Check that its prediction produces a valid move.
 Why:
 
 This ensures that long-term learning produces stable and valid output, and that the system does not break even when subjected to extended repetitive patterns.
+
+**Test Reproducibility**
+
+All testing files are located in the Testing folder,and all tests were implemented using the unittest framework.
+To reproduce the test results,navigate to the project root and run the following command in the Terminal:
+python -m unittest discover Testing
+
 
 
 **Coverage Report Analysis**

@@ -24,7 +24,7 @@ Tests are all covered in the testing document.Unit tests were used along with ed
 
 **Updating transitions**:For each new move,accessing and updating dictionary entries is O(1) time on average.
 
-**Prediction**:Since the prediction checks a small dictionary of transitions,access by key is O(1) and selecting the most frequeny transition is O(1) also as we have at most 3 choices(r,p or s).
+**Prediction**: Prediction iterates over stored transition keys to perform prefix matching,giving O(n) time in the worst case, but since the number of stored sequences remains small in practice,the time is closer to constant time for normal gameplay.
 
 **Multi model evaluation**:For n amount of models(I used 5),to update all models and their scores and to select the best model is O(n) time but since n is quite small,in practice this is effectively also O(1) time.
 
@@ -47,7 +47,7 @@ Since all computations are constant time per roumd,the performance is dominated 
 
 **Use of Large Language Models**
 
-I used ChatGPT 5 and 5.1 quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains.It also suggested adding an integration test file which I had not thought of.However,all the code is a 100 percent mine.The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders.This meant that importing ai_code was not working in the test files,and hence I had to get help.Everything else is mine,documents are written solely by me as well.
+I used ChatGPT 5 and 5.1(these were the models in circulation at my time) quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains.It also suggested adding an integration test file which I had not thought of.However,all the code is a 100 percent mine.The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders.This meant that importing ai_code was not working in the test files,and hence I had to get help.Everything else is mine,documents are written solely by me as well.
 
 
 **Sources Used:**
@@ -62,4 +62,4 @@ https://docs.python.org/3/library/unittest.html
 This was used to help me understand unittests as I had never used them before.
 
 https://algolabra-hy.github.io/topics-en#machine-learning
-The ideas page wasnt really a huge source,maybe only intitally for planning of the project.
+Used as an initial overview reference during the starting phase of the project.
