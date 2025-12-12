@@ -9,13 +9,20 @@ class RPS_AI:
     """
 
     def __init__(self, file_path="moves.json", memory_length=1):
+        """
+        Initialize a single RPS_AI model.
+        file path is the path to the JSON file storing transition data.
+        memory_length is the number of previous moves used to form the prefix.
+        """
         self.file_path = file_path
         self.memory_length = memory_length
         self.sequence = load_data(self.file_path)
         self.prev_moves = []  # last n moves (memory_length)
 
     def store_moves(self, cur_move):
-        """Update transition counts for this model."""
+        """Update transition counts for this model.
+        cur_move stores the player's most recent move.
+        """
         if len(self.prev_moves) == self.memory_length:
             key = ''.join(self.prev_moves)
             self.sequence = update_data(self.sequence, key, cur_move, self.file_path)
@@ -25,7 +32,9 @@ class RPS_AI:
             self.prev_moves.pop(0)
 
     def prediction(self):
-        """Predict the player's next move using prefix matching"""
+        """Predict the player's next move using prefix matching
+        If insufficient data exists,or no matching transitions are found,a random move will be played.
+        """
     # If not enough history for this model,then choose a random move
         if len(self.prev_moves) < self.memory_length:
             return random.choice(['r', 'p', 's'])
@@ -42,7 +51,7 @@ class RPS_AI:
         if not matched:
             return random.choice(['r', 'p', 's'])
 
-        # Aggregate counts from all matching keys
+        # Aggregate  transition counts from all prefix matching keys
         total = {'r': 0, 'p': 0, 's': 0}
         for c in matched:
             total['r'] += c.get('r', 0)
@@ -58,7 +67,8 @@ class RPS_AI:
 
 
     def choose_ai_move(self):
-        """Return the AI move that beats the predicted player move."""
+        """Return the AI move that beats the predicted player move.
+        """
         counters = {'r': 'p', 'p': 's', 's': 'r'}
         return counters[self.prediction()]
 
@@ -72,7 +82,8 @@ class Multi_RPS_AI:
 
     def __init__(self, file_path="moves.json", max_m=5, focus_length=5):
         """
-        max_m is the number of models to create,so 5 models
+        file_path is again the JSON file storing the transition data.
+        max_m is the number of  RPS_Ai models to create,so 5 models,each with memory length from 1 to max_m
         focus_length is the number of recent rounds used to evaluate performance
         """
         self.models = [RPS_AI(file_path, m) for m in range(1, max_m + 1)]
@@ -82,6 +93,9 @@ class Multi_RPS_AI:
     def score_model(self, ai_move, player_move):
         """
         Returns +1, 0, or -1 depending on AI model's move outcome.
+        ai_move is the AI's chosen move.
+        player_move is the player's actual move.
+        +1 is given to the model if it wins,0 if its a draw and -1 for a loss.
         """
         if ai_move == player_move:
             return 0#model drew the game
@@ -95,9 +109,9 @@ class Multi_RPS_AI:
     def update_model_scores(self,player_move):
         """
         Updates the performance scores for each AI model after each round.
-        +1 if the model's predicted move wins,0 if it draws,and -1 if it wold lose.
-        This score is added to the model's score histroy.Since focus length is 5,that is 
-        the number of scores kept for each model.
+        Each model is scored independently using its own predicted move.
+        Only the most recent focus_length scores are kept.
+        player_move is the player's actual move for the round.
         """
         for i,model in enumerate(self.models):
             ai_move=model.choose_ai_move()
@@ -118,13 +132,17 @@ class Multi_RPS_AI:
 
         return self.models[totals.index(max(totals))]
 
-    def get_move(self,player_history=None):
-        """Get a move from the best-performing model."""
+    def get_move(self):
+        """Get a move from the best-performing model.
+        Returns the AI's chosen move
+        """
         ai = self.best_ai()
         return ai.choose_ai_move()
 
     def update_all(self, player_move):
         """Update all models with the player's latest move
-        This ensures the models keep learning,even if they are not selected for prediciton"""
+        This ensures the models keep learning,even if they are not selected for prediciton
+        player_move is the player's most recent move.
+        """
         for ai in self.models:
             ai.store_moves(player_move)
