@@ -1,16 +1,78 @@
 This project contains two core AI components:
 
-RPS_AI — a single-model Markov chain–based Rock Paper Scissors predictor. Since this component is no longer utilized, I have not talked about its tests below.
+RPS_AI — a single-model Markov chain–based Rock Paper Scissors predictor. It learns transition probabilities from the player's previous moves and predicts the most likely next move,and counters it.
 
-Multi_RPS_AI — a multi-model system that evaluates several RPS_AI models with different memory lengths and selects the best-performing one.This is the method I currentl use to predict the next move.
+Multi_RPS_AI — a multi-model system that evaluates several RPS_AI models with different memory lengths and selects the best-performing one over a period of moves.
 
 My unit tests were designed to verify the correctness of these components in a reproducible manner. The tests focus on transition storage, prediction accuracy, model selection, and functional correctness.
 
-**a,b,c,d,e,f,g,h is from tests_multi_ai.py**
+**Single Model Testing(test_single_ai.py)**
+
+**a. Move Storage Correctness(test_store_moves)**
+
+Goal:Ensure the AI correctly updates its transition matrix when a move is stored.
+
+Method used:
+
+Manually set the previous move to "p"
+
+Store the next move "s"
+
+Verify that the transition count for p to s is incrememnted correctly.
+
+Why:
+
+This confirms that the transition logic works crrectly at the base level.This is crucial as prefix based prediction in the multi-model system becomes unreliable otherwise.
+
+**b.Prediction Behaviou at Game Start(test_prediction_beginning)**
+
+Goal:Prediction behaviour when no previous moves exist.
+
+Method used:
+
+Call prediction() with an enmpty history and ensure that the returned move is either r,p or s.
+
+Why:
+
+Early game predictions must be safe and crash free.This test ensures that the AI defaults to a random move when insufficient data exists.
+
+**c.Prediction After learning a Pattern(test_prediciton_after)**
+
+Goal:To ensure the AI correctly leanrs and exploits a repeated pattern.
+
+Method used:
+
+Simulate the pattern p->s 100 times.
+
+Set the previous move to p and check that the predicted move is s.
+
+Why:
+
+This confirms that learning converges correctly in a single model.
+
+Since prefix matching activates single models before higher memory models,this test is crucial for ensuring early predictive strength in the full system.
+
+**d.Correct Counter Move Selection(test_if_ai_wins)**
+
+Goal:To ensure the AI correctly converts a predicted human move into a winning AI move.
+
+Method used:
+
+Mock the prediction to always return r.
+
+Call choose_ai_move() and verify that the AI selects p,which is the winning move.
+
+Why:
+
+Prediction alone is not sufficient,we must ensure that the AI responds optimally.
+
+This ensures that even if the prediction logic is correct,the final decision making step is also reliable.
+
+**e,f,g,h,i,j,k,l is from tests_multi_ai.py**
 
 **Testing the Multi-Model System (Multi_RPS_AI)**
 
-**a. Testing Model Creation (test_models_created)**
+**e. Testing Model Creation (test_models_created)**
 
 Goal: Ensure the correct number of RPS_AI models are created with different memory lengths.
 
@@ -26,7 +88,7 @@ Why:
 
 The multi-model system relies on a range of submodels.
 
-**b. Testing Update Across All Models (test_update_all_updates_models)**
+**f. Testing Update Across All Models (test_update_all_updates_models)**
 
 Goal: Verify that player moves update every internal RPS model.
 
@@ -40,7 +102,7 @@ Why:
 
 All submodels must learn simultaneously for fair performance comparison and selection of model per move.
 
-**c. Testing Score Updating (test_update_model_scores)**
+**g. Testing Score Updating (test_update_model_scores)**
 
 Goal: Ensure that update_scores() appends correct values of +1,-1 or 0 to all models,and ensures that the list represents the most recent game outcomes only.
 
@@ -52,7 +114,7 @@ Why:
 
 Correct scoring is required for determining the best-performing model.
 
-**d. Testing Best Model Selection (test_best_ai_selects_highest_score)**
+**h. Testing Best Model Selection (test_best_ai_selects_highest_score)**
 
 Goal: Verify that the system picks the correct model based on recent scores.
 
@@ -66,7 +128,7 @@ Why:
 
 Ensures the AI switches strategies correctly based on performance.
 
-**e. Testing Final Move Selection (test_get_move_uses_best_model)**
+**i. Testing Final Move Selection (test_get_move_uses_best_model)**
 
 Goal: Confirm that the multi-model system produces the correct AI move from the best-performing model.
 
@@ -82,7 +144,7 @@ Why:
 
 This validates the complete flow i.e prediciton to pick a model to choose the final move.
 
-**f.Testing handling of invalid previous moves(test_multi_handles_invalid_prev)**
+**j.Testing handling of invalid previous moves(test_multi_handles_invalid_prev)**
 
 Goal:Confirm that the system remains stable even if one of the RPS_AI models contains corrupted or invalid previous moves.
 
@@ -98,7 +160,7 @@ Why:
 
 The model must be robust.Even if one model enters a corrupted state, the system must continue to functioning and still produce legal moves.
 
-**g.Testing score window enforcement(test_scores_trim_to_focus_length)**
+**k.Testing score window enforcement(test_scores_trim_to_focus_length)**
 
 Goal:Ensure that score histories do not grow large and will always respect the specified focus_length sliding window.
 
@@ -112,7 +174,7 @@ Why:
 
 The scoring system must maintain a fixed window of recent performance. This will ensure that outdated scores from influencing the selection of the best model in the gameplay.
 
-**h. Testing Tie handling(test_best_ai_handles_ties)**
+**l. Testing Tie handling(test_best_ai_handles_ties)**
 
 Goal:Ensure that best_ai() behaves correctly when 2 models end up having identical score totals.
 
@@ -129,10 +191,10 @@ Why:
 Tie scenarios are very possible in the gameplay. The AI must handle these scenarios and still return a valid model without any errors.
 
 
-**i and j are both from test_edge_cases.py**
+**m and n are both from test_edge_cases.py**
 
 
-**i. Testing Prediction with Insufficient Previous Moves (test_empty_prev_moves)**
+**m. Testing Prediction with Insufficient Previous Moves (test_empty_prev_moves)**
 
 Goal:
 
@@ -148,7 +210,7 @@ Why:
 
 If the AI does not have enough history to form a sequence key, it should fall back to a safe,valid random choice rather than crashing.
 
-**j. Testing Behavior with Missing or Invalid Keys (test_missing_key_in_json)**
+**n. Testing Behavior with Missing or Invalid Keys (test_missing_key_in_json)**
 
 Goal:Ensure that the AI can handle unexpected or invalid keys in its previous move history without failing.
 
@@ -164,7 +226,9 @@ This simulates corrupted data or malformed previous-move sequences.
 
 The expected behavior is that the AI should not crash and should default to a safe random move.
 
-**k. Testing Multi-Round Learning Stability (test_multi_round_learning) FROM test_integration.py**
+**o is from test_integration.py****
+
+**o. Testing Multi-Round Learning Stability (test_multi_round_learning) **
 
 Goal: Confirm that the multi-model system learns correctly over repeated rounds and that no model enters an invalid state.
 
