@@ -51,7 +51,7 @@ class RPS_AI:
         if not matched:
             return random.choice(['r', 'p', 's'])
 
-        # Aggregate  transition counts from all prefix matching keys
+        # Aggregate transition counts from all prefix matching keys
         total = {'r': 0, 'p': 0, 's': 0}
         for c in matched:
             total['r'] += c.get('r', 0)
