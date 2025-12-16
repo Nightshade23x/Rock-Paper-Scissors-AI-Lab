@@ -3,8 +3,7 @@ from move_storage import load_data, update_data
 
 class RPS_AI:
     """
-    A single Markov chain model that predicts the player's next move
-    based on the last `memory_length` moves.
+    A single Markov chain model that predicts the player's next move based on the last `memory_length` moves.
     RPS_AI is the core prediction engine used by all models
     """
 
@@ -20,7 +19,8 @@ class RPS_AI:
         self.prev_moves = []  # last n moves (memory_length)
 
     def store_moves(self, cur_move):
-        """Update transition counts for this model.
+        """
+        Update transition counts for this model.
         cur_move stores the player's most recent move.
         """
         if len(self.prev_moves) == self.memory_length:
@@ -32,7 +32,8 @@ class RPS_AI:
             self.prev_moves.pop(0)
 
     def prediction(self):
-        """Predict the player's next move using prefix matching
+        """
+        Predict the player's next move using prefix matching
         If insufficient data exists,or no matching transitions are found,a random move will be played.
         """
     # If not enough history for this model,then choose a random move
@@ -67,7 +68,8 @@ class RPS_AI:
 
 
     def choose_ai_move(self):
-        """Return the AI move that beats the predicted player move.
+        """
+        Return the AI move that beats the predicted player move.
         """
         counters = {'r': 'p', 'p': 's', 's': 'r'}
         return counters[self.prediction()]
@@ -76,7 +78,7 @@ class RPS_AI:
 class Multi_RPS_AI:
     """
     Uses multiple RPS_AI models (different memory lengths).
-    It creates multiple RPS_AI predictors with different memory lenghts
+    It creates multiple RPS_AI predictors with different memory lengths
     Each model is judged INDIVIDUALLY based on how its own prediction would have performed each round.
     """
 
@@ -91,7 +93,8 @@ class Multi_RPS_AI:
         self.scores = [[] for _ in range(max_m)]  # scores per model
     
     def get_move(self):
-        """Get a move from the best-performing model.
+        """
+        Get a move from the best-performing model.
         Returns the AI's chosen move
         """
         ai = self.best_ai()
@@ -152,8 +155,9 @@ class Multi_RPS_AI:
    
 
     def update_all(self, player_move):
-        """Update all models with the player's latest move
-        This ensures the models keep learning,even if they are not selected for prediciton
+        """
+        Update all models with the player's latest move
+        This ensures the models keep learning,even if they are not selected for prediction
         player_move is the player's most recent move.
         """
         for ai in self.models:

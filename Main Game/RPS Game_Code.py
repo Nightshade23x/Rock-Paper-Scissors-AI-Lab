@@ -1,6 +1,10 @@
 from ai_code import Multi_RPS_AI
 
 def game():
+    """
+    Runs a RPS game session between the user and the multi model AI system
+    Displays session statistics and model performance upon exit
+    """
     ai = Multi_RPS_AI()
     player_history = []
 

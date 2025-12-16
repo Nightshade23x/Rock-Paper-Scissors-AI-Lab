@@ -7,9 +7,9 @@ sys.path.append(ai_path)
 from ai_code import RPS_AI
 
 """
-These tests ensure that the AI behaves predictibly when it encounters unsual state conditions
+These tests ensure that the AI behaves predictably when it encounters unusual state conditions
 such as inefficient move history or unexpected keys in the transition data.
-The goal is not to verify predicitons but simply ensure stability and sustainability of the code 
+The goal is not to verify predictions but simply ensure stability and sustainability of the code 
 regardless of what it faces.
 """
 
@@ -30,7 +30,7 @@ class TestEdgeCases(unittest.TestCase):
         """
         Tests how the AI responds when its prev move history form a key that does not exist
         in the matrix,eg invalid moves.This hopes to simulate corrupted data.
-    Expected behaviour is that the AI shouldnt crash,and fall back to random choice behaviour.
+        Expected behaviour is that the AI shouldnt crash,and fall back to random choice behaviour.
         """
         ai = RPS_AI()
         ai.prev_moves = ["x"]  # invalid key

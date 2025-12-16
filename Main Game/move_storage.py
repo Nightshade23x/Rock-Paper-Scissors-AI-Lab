@@ -4,7 +4,8 @@ These are functions for loading and safely updating the transition data for move
 import json
 
 def load_data(file_path):
-    """Load move data from the JSON file.
+    """
+    Load move data from the JSON file.
     If the file does not exist,an empty dictionary is returned to ensure safe execution regardless.
     file_path is the path to the JSON file storing the transition data.
     """
@@ -14,8 +15,9 @@ def load_data(file_path):
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
-def update_data(data, prev_move, curr_move,file_path):
-    """Update the transition count safely
+def update_data(data, prev_move, curr_move, file_path):
+    """
+    Update the transition count safely
     data is the existing transition data.
     prev_move is the previous move sequence used as a key.
     curr_move is the current player move to record.
