@@ -1,6 +1,6 @@
 This project contains two core AI components:
 
-RPS_AI — a single-model Markov chain–based Rock Paper Scissors predictor. It learns transition probabilities from the player's previous moves and predicts the most likely next move,and counters it.
+RPS_AI — a single-model Markov chain–based Rock Paper Scissors predictor. It learns transition probabilities from the player's previous moves and predicts the most likely next move, and counters it.
 
 Multi_RPS_AI — a multi-model system that evaluates several RPS_AI models with different memory lengths and selects the best-performing one over a period of moves.
 
@@ -14,7 +14,7 @@ The tests use a diverse range of inputs to validate both correctness and robustn
 
 **a. Move Storage Correctness(test_store_moves)**
 
-Goal:Ensure the AI correctly updates its transition matrix when a move is stored.
+Goal: Ensure the AI correctly updates its transition matrix when a move is stored.
 
 Method used:
 
@@ -22,27 +22,27 @@ Manually set the previous move to "p"
 
 Store the next move "s"
 
-Verify that the transition count for p to s is incrememnted correctly.
+Verify that the transition count for p to s is incremented correctly.
 
 Why:
 
-This confirms that the transition logic works crrectly at the base level.This is crucial as prefix based prediction in the multi-model system becomes unreliable otherwise.
+This confirms that the transition logic works correctly at the base level. This is crucial as prefix based prediction in the multi-model system becomes unreliable otherwise.
 
-**b.Prediction Behaviou at Game Start(test_prediction_beginning)**
+**b.Prediction Behaviour at Game Start(test_prediction_beginning)**
 
-Goal:Prediction behaviour when no previous moves exist.
+Goal: Prediction behaviour when no previous moves exist.
 
 Method used:
 
-Call prediction() with an enmpty history and ensure that the returned move is either r,p or s.
+Call prediction() with an empty history and ensure that the returned move is either r,p or s.
 
 Why:
 
-Early game predictions must be safe and crash free.This test ensures that the AI defaults to a random move when insufficient data exists.
+Early game predictions must be safe and crash free. This test ensures that the AI defaults to a random move when insufficient data exists.
 
 **c.Prediction After learning a Pattern(test_prediciton_after)**
 
-Goal:To ensure the AI correctly leanrs and exploits a repeated pattern.
+Goal: To ensure the AI correctly leanrs and exploits a repeated pattern.
 
 Method used:
 
@@ -54,23 +54,23 @@ Why:
 
 This confirms that learning converges correctly in a single model.
 
-Since prefix matching activates single models before higher memory models,this test is crucial for ensuring early predictive strength in the full system.
+Since prefix matching activates single models before higher memory models, this test is crucial for ensuring early predictive strength in the full system.
 
 **d.Correct Counter Move Selection(test_if_ai_wins)**
 
-Goal:To ensure the AI correctly converts a predicted human move into a winning AI move.
+Goal: To ensure the AI correctly converts a predicted human move into a winning AI move.
 
 Method used:
 
 Mock the prediction to always return r.
 
-Call choose_ai_move() and verify that the AI selects p,which is the winning move.
+Call choose_ai_move() and verify that the AI selects p, which is the winning move.
 
 Why:
 
-Prediction alone is not sufficient,we must ensure that the AI responds optimally.
+Prediction alone is not sufficient, we must ensure that the AI responds optimally.
 
-This ensures that even if the prediction logic is correct,the final decision making step is also reliable.
+This ensures that even if the prediction logic is correct, the final decision making step is also reliable.
 
 **e,f,g,h,i,j,k,l is from tests_multi_ai.py**
 
@@ -90,7 +90,7 @@ Validate that each is an instance of RPS_AI
 
 Why:
 
-The multi-model system relies on a range of submodels.
+The multi-model system relies on a range of sub models.
 
 **f. Testing Update Across All Models (test_update_all_updates_models)**
 
@@ -104,11 +104,11 @@ Check that each model’s prev_moves list was updated to ['p']
 
 Why:
 
-All submodels must learn simultaneously for fair performance comparison and selection of model per move.
+All sub models must learn simultaneously for fair performance comparison and selection of model per move.
 
 **g. Testing Score Updating (test_update_model_scores)**
 
-Goal: Ensure that update_scores() appends correct values of +1,-1 or 0 to all models,and ensures that the list represents the most recent game outcomes only.
+Goal: Ensure that update_scores() appends correct values of +1,-1 or 0 to all models, and ensures that the list represents the most recent game outcomes only.
 
 Method used:
 
@@ -146,11 +146,11 @@ Assert that get_move() returns the counter 'p'
 
 Why:
 
-This validates the complete flow i.e prediciton to pick a model to choose the final move.
+This validates the complete flow i.e prediction to pick a model to choose the final move.
 
 **j.Testing handling of invalid previous moves(test_multi_handles_invalid_prev)**
 
-Goal:Confirm that the system remains stable even if one of the RPS_AI models contains corrupted or invalid previous moves.
+Goal: Confirm that the system remains stable even if one of the RPS_AI models contains corrupted or invalid previous moves.
 
 Method used:
 
@@ -162,11 +162,11 @@ Verify that the returned move is still one of the valid moves(r,p or s)
 
 Why:
 
-The model must be robust.Even if one model enters a corrupted state, the system must continue to functioning and still produce legal moves.
+The model must be robust. Even if one model enters a corrupted state, the system must continue to functioning and still produce legal moves.
 
 **k.Testing score window enforcement(test_scores_trim_to_focus_length)**
 
-Goal:Ensure that score histories do not grow large and will always respect the specified focus_length sliding window.
+Goal: Ensure that score histories do not grow large and will always respect the specified focus_length sliding window.
 
 Method used:
 
@@ -180,7 +180,7 @@ The scoring system must maintain a fixed window of recent performance. This will
 
 **l. Testing Tie handling(test_best_ai_handles_ties)**
 
-Goal:Ensure that best_ai() behaves correctly when 2 models end up having identical score totals.
+Goal: Ensure that best_ai() behaves correctly when 2 models end up having identical score totals.
 
 Method used:
 
@@ -212,11 +212,11 @@ Call prediction() and ensure the returned move is one of r,p or s.
 
 Why:
 
-If the AI does not have enough history to form a sequence key, it should fall back to a safe,valid random choice rather than crashing.
+If the AI does not have enough history to form a sequence key, it should fall back to a safe, valid random choice rather than crashing.
 
 **n. Testing Behavior with Missing or Invalid Keys (test_missing_key_in_json)**
 
-Goal:Ensure that the AI can handle unexpected or invalid keys in its previous move history without failing.
+Goal: Ensure that the AI can handle unexpected or invalid keys in its previous move history without failing.
 
 Method used:
 
@@ -254,8 +254,8 @@ This ensures that long-term learning produces stable and valid output, and that 
 
 **Test Reproducibility**
 
-All testing files are located in the Testing folder,and all tests were implemented using the unittest framework.
-To reproduce the test results,navigate to the project root and run the following command in the Terminal:
+All testing files are located in the Testing folder, and all tests were implemented using the unittest framework.
+To reproduce the test results, navigate to the project root and run the following command in the Terminal:
 python -m unittest discover Testing
 
 
@@ -265,7 +265,7 @@ python -m unittest discover Testing
 To evaluate how through my tests were, I used the Python coverage tool.
 
 There are 178 statements to execute, and 3 were missed, bringing the overall coverage to approximately 98%.
-Note,I did not include RPS_Game_Code.py because it is does not contribute to the AI logic and is simply just used to run the game.
+Note, I did not include RPS_Game_Code.py because it is does not contribute to the AI logic and is simply just used to run the game.
 
 **Breakdown File by File**
 
@@ -275,17 +275,17 @@ All 47 statements were executed during testing. This shows that every branch of 
 
 **2. move_storage.py- 94%**
 
-The untested lines correspond to rarely triggered edge cases such as conditions that only occur when storage files are corrupted,and do no affect normal gameplay.
+The untested lines correspond to rarely triggered edge cases such as conditions that only occur when storage files are corrupted,and do not affect normal gameplay.
 
 **3. test files(test_single_ai.py,test_multi_ai.py,test_edgecases.py)**
 
-All of these files have above 95% coverage,with 2 files having 100%. This shows that the tests themselves executed fully.High coverage in the multi-model tests shows strong testing of the Markov chain models.
+All these files have above 95% coverage, with 2 files having 100%. This shows that the tests themselves executed fully. High coverage in the multi-model tests shows strong testing of the Markov chain models.
 
 **4. test_integration.py - 100%coverage.**
 
-All of the lines were executed without any issues.This shows the integration logic is well covered by unittests.
+All the lines were executed without any issues. This shows the integration logic is well covered by unittests.
 
 
 **Conclusion**
 
-My coverage results showcase that all core modules including scoring logic, move storage, multi model systems are all well tested.The remaining untested statements are due to very rare edge cases that have no impact on the day to day running of the program.The coverage score provides a strong confidence in the stability and reliability of the project.
+My coverage results showcase that all core modules including scoring logic, move storage, multi model systems are all well tested. The remaining untested statements are due to very rare edge cases that have no impact on the day to day running of the program. The coverage score provides a strong confidence in the stability and reliability of the project.
