@@ -63,3 +63,6 @@ This was used to help me understand unittests as I had never used them before.
 
 https://algolabra-hy.github.io/topics-en#machine-learning
 Used as an initial overview reference during the starting phase of the project.
+
+https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/resources/lecture-16-markov-chains-i/
+This lecture helped me grasp concepts such as states and transitions in Markov chains.
