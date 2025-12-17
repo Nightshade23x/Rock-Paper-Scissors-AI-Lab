@@ -10,7 +10,7 @@ from ai_code import Multi_RPS_AI, RPS_AI
 
 class TestMultiRPSAI(unittest.TestCase):
     """
-    Tests for the multi rps ai system
+    Tests for the Multi_RPS_AI system
     """
 
     def setUp(self):
@@ -62,7 +62,7 @@ class TestMultiRPSAI(unittest.TestCase):
 
     def test_get_move_uses_best_model(self):
         """
-        get_move should use the move predicted by the best-performing model.
+        get_move should use the move predicted by the best performing model.
         """
         # force model 0 to always predict 'r'
         self.multi.models[0].prediction = lambda: "r"
@@ -84,7 +84,8 @@ class TestMultiRPSAI(unittest.TestCase):
     
     def test_scores_trim_to_focus_length(self):
         """
-        Verifies that the score lists for each model never exceed the defined focus length.After more than 'focus_length' updates, the score lists should be trimmed to maintain only the most recent scores.
+        Verifies that the score lists for each model never exceed the defined focus length.After more than 'focus_length' updates, 
+        the score lists should be trimmed to maintain only the most recent scores.
         """
         # focus_length = 5 from setup
         for _ in range(10):  # add more scores than the window
@@ -95,7 +96,8 @@ class TestMultiRPSAI(unittest.TestCase):
     
     def test_best_ai_handles_ties(self):
         """
-        Confirms that best_ai behaves correctly when 2 or more models have the same total score.In the event of a tie,the method should still return a valid model without any errors.
+        Confirms that best_ai behaves correctly when 2 or more models have the same total score.In the event of a tie,
+        the method should still return a valid model without any errors.
         """
         # force model 0 and 1 to have equal sums
         self.multi.scores[0] = [1, 1, 1]

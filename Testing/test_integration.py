@@ -19,10 +19,10 @@ class TestIntegration(unittest.TestCase):
 
     def test_multi_round_learning(self):
         """
-        Steps done here were:
-        1.A temp JSON file was created to store transistion data.
+        Steps:
+        1.A temp JSON file was created to store transition data.
         2.A multi RPS instance is initialized with this file.
-        3. A rpeeated move pattern is simulated for 40 cycles.Each cycle will update
+        3. A repeated move pattern is simulated for 40 cycles.Each cycle will update
         each model's recent result scores.
         4. After learning,the best performing model is retrieved.
         5. Its prediction is checked to see if it produces a valid move.

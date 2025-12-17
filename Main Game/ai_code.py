@@ -3,8 +3,8 @@ from move_storage import load_data, update_data
 
 class RPS_AI:
     """
-    A single Markov chain model that predicts the player's next move based on the last `memory_length` moves.
-    RPS_AI is the core prediction engine used by all models
+    A single Markov chain model that predicts the player's next move based on the last memory_length moves.
+    RPS_AI is the core prediction engine used by all models and all models in the multi model system are instances of RPS_AI
     """
 
     def __init__(self, file_path="moves.json", memory_length=1):
@@ -77,15 +77,17 @@ class RPS_AI:
 
 class Multi_RPS_AI:
     """
-    Uses multiple RPS_AI models (different memory lengths).
+    Uses multiple RPS_AI models
     It creates multiple RPS_AI predictors with different memory lengths
+    memory length is the number of previous moves the model can look at as context to make its prediction,
+    for example model 3 has memory length 3,hence it can use the last 3 moves as context to make its prediction
     Each model is judged INDIVIDUALLY based on how its own prediction would have performed each round.
     """
 
     def __init__(self, file_path="moves.json", max_m=5, focus_length=5):
         """
         file_path is again the JSON file storing the transition data.
-        max_m is the number of  RPS_Ai models to create,so 5 models,each with memory length from 1 to max_m
+        max_m is the number of RPS_Ai models to create,so 5 models,each with memory length from 1 to max_m
         focus_length is the number of recent rounds used to evaluate performance
         """
         self.models = [RPS_AI(file_path, m) for m in range(1, max_m + 1)]
@@ -108,13 +110,12 @@ class Multi_RPS_AI:
         self.update_model_scores(player_move)
         self.update_all(player_move)
 
-
     def score_model(self, ai_move, player_move):
         """
         Returns +1, 0, or -1 depending on AI model's move outcome.
         ai_move is the AI's chosen move.
         player_move is the player's actual move.
-        +1 is given to the model if it wins,0 if its a draw and -1 for a loss.
+        +1 is given to the model if it wins,0 if the game is a draw and -1 for a loss.
         """
         if ai_move == player_move:
             return 0#model drew the game
@@ -139,7 +140,6 @@ class Multi_RPS_AI:
             if len(self.scores[i])>self.focus_length:
                 self.scores[i].pop(0)
 
-
     def best_ai(self):
         """
         Select the model with the highest recent score sum.
@@ -151,8 +151,6 @@ class Multi_RPS_AI:
         best_indices = [i for i, t in enumerate(totals) if t == max_score]
         chosen_index = random.choice(best_indices)
         return self.models[chosen_index]
-
-   
 
     def update_all(self, player_move):
         """
