@@ -14,6 +14,9 @@ class TestMultiRPSAI(unittest.TestCase):
     """
 
     def setUp(self):
+        """
+        Creates a fresh Multi_RPS_AI instance and a clean test JSON file before each test to ensure isolation and consistent state
+        """
         self.test_file = "test_multi.json"
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
