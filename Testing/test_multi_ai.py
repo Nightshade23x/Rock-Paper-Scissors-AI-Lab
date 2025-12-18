@@ -44,11 +44,11 @@ class TestMultiRPSAI(unittest.TestCase):
         self.multi.update_model_scores("r")
         self.multi.update_model_scores("p")
 
-        # each model should have exactly 2 scores
+        # Each model should have exactly 2 scores
         for score_list in self.multi.scores:
             self.assertEqual(len(score_list), 2)
 
-        # all scores must be in [-1, 0, +1]
+        # All scores must be in [-1, 0, +1]
         for score_list in self.multi.scores:
             for s in score_list:
                 self.assertIn(s, [-1, 0, 1])
@@ -64,9 +64,9 @@ class TestMultiRPSAI(unittest.TestCase):
         """
         get_move should use the move predicted by the best performing model.
         """
-        # force model 0 to always predict 'r'
+        # Force model 1 to always predict r
         self.multi.models[0].prediction = lambda: "r"
-        # give model 0 highest score
+        # Give model 1 highest score
         self.multi.scores[0] = [+1, +1, +1, +1, +1]
 
         move = self.multi.get_move()
@@ -79,7 +79,7 @@ class TestMultiRPSAI(unittest.TestCase):
         # Simulate corrupted history in one model
         self.multi.models[2].prev_moves = ["x", "y"]
         move = self.multi.get_move()
-        # Should not crash; must return a valid move
+        # Should not crash and must return a valid move
         self.assertIn(move, ["r", "p", "s"])
     
     def test_scores_trim_to_focus_length(self):
@@ -87,10 +87,10 @@ class TestMultiRPSAI(unittest.TestCase):
         Verifies that the score lists for each model never exceed the defined focus length.After more than 'focus_length' updates, 
         the score lists should be trimmed to maintain only the most recent scores.
         """
-        # focus_length = 5 from setup
+        # focus_length = 5 from original setup
         for _ in range(10):  # add more scores than the window
             self.multi.update_model_scores("r")
-        # all models must have exactly focus_length items
+        # All models must have exactly focus_length items
         for score_list in self.multi.scores:
             self.assertEqual(len(score_list), 5)
     
@@ -99,7 +99,7 @@ class TestMultiRPSAI(unittest.TestCase):
         Confirms that best_ai behaves correctly when 2 or more models have the same total score.In the event of a tie,
         the method should still return a valid model without any errors.
         """
-        # force model 0 and 1 to have equal sums
+        # Force model 1 and 2 to have equal sums
         self.multi.scores[0] = [1, 1, 1]
         self.multi.scores[1] = [1, 1, 1]
         best = self.multi.best_ai()

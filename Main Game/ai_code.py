@@ -36,36 +36,29 @@ class RPS_AI:
         Predict the player's next move using prefix matching
         If insufficient data exists,or no matching transitions are found,a random move will be played.
         """
-    # If not enough history for this model,then choose a random move
+    # If there is not enough history for this model to use,then choose a random move
         if len(self.prev_moves) < self.memory_length:
             return random.choice(['r', 'p', 's'])
-
         prefix = ''.join(self.prev_moves)
-
         # Collect all transitions whose key starts with the prefix
         matched = []
         for key, counts in self.sequence.items():
             if key.startswith(prefix):
                 matched.append(counts)
-
         # If no matching transitions found,use a random move
         if not matched:
             return random.choice(['r', 'p', 's'])
-
         # Aggregate transition counts from all prefix matching keys
         total = {'r': 0, 'p': 0, 's': 0}
         for c in matched:
             total['r'] += c.get('r', 0)
             total['p'] += c.get('p', 0)
             total['s'] += c.get('s', 0)
-
         # If all zero,use a random move
         if total['r'] == total['p'] == total['s'] == 0:
             return random.choice(['r', 'p', 's'])
-
         # Return move with highest frequency
         return max(total, key=total.get)
-
 
     def choose_ai_move(self):
         """
@@ -118,13 +111,13 @@ class Multi_RPS_AI:
         +1 is given to the model if it wins,0 if the game is a draw and -1 for a loss.
         """
         if ai_move == player_move:
-            return 0#model drew the game
+            return 0 #model drew the game
         elif (ai_move == "r" and player_move == "s") or \
              (ai_move == "p" and player_move == "r") or \
              (ai_move == "s" and player_move == "p"):
             return 1  # model wins the game
         else:
-            return -1  # model loses
+            return -1  # model lost the game
    
     def update_model_scores(self,player_move):
         """

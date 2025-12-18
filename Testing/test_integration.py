@@ -37,14 +37,14 @@ class TestIntegration(unittest.TestCase):
 
         ai = Multi_RPS_AI(file_path=test_file)
 
-        # simulate repeated pattern: player plays 'r' then 'p'
+        # Simulate repeated pattern: player plays r then p
         for _ in range(40):
             ai.update_all('r')
             ai.update_model_scores('r')
             ai.update_all('p')
             ai.update_model_scores('p')
 
-        # after enough learning, at least one model should predict properly
+        # After enough learning, at least one model should predict properly
         best = ai.best_ai()
         best.prev_moves = ["r"]
         prediction = best.prediction()

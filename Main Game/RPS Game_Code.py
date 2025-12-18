@@ -30,7 +30,7 @@ def game():
 
             break   # quit after showing stats
 
-        # handles invalid input
+        # Handles invalid input
         if player not in ["r", "p", "s"]:
             print("Invalid choice, try again.")
             continue
@@ -38,7 +38,7 @@ def game():
         # Saves move
         player_history.append(player)
 
-        # picks the best ai move to counter the player
+        # Picks the best ai move to counter the player
         computer = ai.get_move()
         print(f"The computer picked {computer}")
 
@@ -57,7 +57,7 @@ def game():
             print("You lose, the computer wins!")
             computer_wins += 1
 
-        # Updating of models happens here
+        # Updating of models
         ai.update_all(player)
         ai.update_model_scores(player) 
 

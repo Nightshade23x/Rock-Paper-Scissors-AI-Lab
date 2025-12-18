@@ -26,7 +26,7 @@ def update_data(data, prev_move, curr_move, file_path):
     # If the previous move sequence doesn't exist, create it
     if prev_move not in data:
         data[prev_move] = {'r': 0, 'p': 0, 's': 0}
-    # If the current move key doesn't exist (shouldn’t happen, but safe)
+    # If the current move key doesn't exist,very unlikely but kept as a safety measure
     if curr_move not in data[prev_move]:
         data[prev_move][curr_move] = 0
     # Update the transition count
