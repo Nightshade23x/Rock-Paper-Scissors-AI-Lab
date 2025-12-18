@@ -256,7 +256,10 @@ This ensures that long-term learning produces stable and valid output, and that 
 
 All testing files are located in the Testing folder, and all tests were implemented using the unittest framework.
 To reproduce the test results, navigate to the project root and run the following command in the Terminal:
+
 python -m unittest discover Testing
+
+Or simply run each individual test file individually to run tests present in the respective file.
 
 
 
