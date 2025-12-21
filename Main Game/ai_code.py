@@ -12,6 +12,9 @@ class RPS_AI:
         Initialize a single RPS_AI model.
         file path is the path to the JSON file storing transition data.
         memory_length is the number of previous moves used to form the prefix.
+        
+        Returns:
+            None
         """
         self.file_path = file_path
         self.memory_length = memory_length
@@ -22,6 +25,9 @@ class RPS_AI:
         """
         Update transition counts for this model.
         cur_move stores the player's most recent move.
+        
+        Returns:
+            None
         """
         if len(self.prev_moves) == self.memory_length:
             key = ''.join(self.prev_moves)
@@ -35,6 +41,9 @@ class RPS_AI:
         """
         Predict the player's next move using prefix matching
         If insufficient data exists,or no matching transitions are found,a random move will be played.
+        
+        Returns:
+            str: The predicted player move (r,p or s)
         """
     # If there is not enough history for this model to use,then choose a random move
         if len(self.prev_moves) < self.memory_length:
@@ -63,6 +72,9 @@ class RPS_AI:
     def choose_ai_move(self):
         """
         Return the AI move that beats the predicted player move.
+        
+        Returns:
+            str: The AI's chosen move from r,p or s
         """
         counters = {'r': 'p', 'p': 's', 's': 'r'}
         return counters[self.prediction()]
@@ -82,6 +94,9 @@ class Multi_RPS_AI:
         file_path is again the JSON file storing the transition data.
         max_m is the number of RPS_Ai models to create,so 5 models,each with memory length from 1 to max_m
         focus_length is the number of recent rounds used to evaluate performance
+        
+        Returns:
+            None
         """
         self.models = [RPS_AI(file_path, m) for m in range(1, max_m + 1)]
         self.focus_length = focus_length
@@ -90,7 +105,9 @@ class Multi_RPS_AI:
     def get_move(self):
         """
         Get a move from the best-performing model.
-        Returns the AI's chosen move
+        
+        Returns:
+             str: The AI's chosen move (r,p or s)
         """
         ai = self.best_ai()
         return ai.choose_ai_move()
@@ -99,6 +116,9 @@ class Multi_RPS_AI:
         """
         Process a single game round.
         First scores all models based on their predictions,then updates all models with the player's move.
+        
+        Returns:
+            None
         """
         self.update_model_scores(player_move)
         self.update_all(player_move)
@@ -109,6 +129,9 @@ class Multi_RPS_AI:
         ai_move is the AI's chosen move.
         player_move is the player's actual move.
         +1 is given to the model if it wins,0 if the game is a draw and -1 for a loss.
+        
+        Returns:
+            int: +1,0 or -1 according to above docstring
         """
         if ai_move == player_move:
             return 0 #model drew the game
@@ -125,6 +148,9 @@ class Multi_RPS_AI:
         Each model is scored independently using its own predicted move.
         Only the most recent focus_length scores are kept.
         player_move is the player's actual move for the round.
+        
+        Returns:
+            None
         """
         for i,model in enumerate(self.models):
             ai_move=model.choose_ai_move()
@@ -137,6 +163,9 @@ class Multi_RPS_AI:
         """
         Select the model with the highest recent score sum.
         If multiple models are tied for best performance,one of them is chosen at random.
+        
+        Returns:
+            RPS_AI: The best performing model instance
         """
         totals = [sum(s[-self.focus_length:]) for s in self.scores]
         max_score = max(totals)
@@ -150,6 +179,9 @@ class Multi_RPS_AI:
         Update all models with the player's latest move
         This ensures the models keep learning,even if they are not selected for prediction
         player_move is the player's most recent move.
+        
+        Returns:
+            None
         """
         for ai in self.models:
             ai.store_moves(player_move)
