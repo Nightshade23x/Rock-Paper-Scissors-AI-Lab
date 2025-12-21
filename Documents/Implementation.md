@@ -35,7 +35,7 @@ Overall **space complexity** is O(n).Each RPS_AI model stores transitions for it
 
 **Performance and Big-O comparison**
 
-Since all computations are constant time per round, the performance is dominated by the history size and the number of models. Thus, in realistic use, the system will perform effectively even over hundreds of rounds. I/O operations are the slowest part in this project, but still fast enough for the project overall.
+Since most computations are constant time per round, the performance is dominated by the history size and the number of models. Thus, in realistic use, the system will perform effectively even over hundreds of rounds. I/O operations are the slowest part in this project, but still fast enough for the project overall.
 
 
 **Possible shortcomings and Suggestions for improvement**
@@ -47,7 +47,7 @@ Since all computations are constant time per round, the performance is dominated
 
 **Use of Large Language Models**
 
-I used ChatGPT 5 and 5.1(these were the models in circulation at my time) quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains. It also suggested adding an integration test file which I had not thought of. However, all the code is a 100 percent mine. The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders. This meant that importing ai_code was not working in the test files, and hence I had to get help. Everything else is mine, and the documents are written solely by me also.
+I used ChatGPT 5.1 and 5.2 (these were the models in circulation during implementation of the project) quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains. It also suggested adding an integration test file which I had not thought of. However, all the code is a 100 percent mine. The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders. This meant that importing ai_code was not working in the test files, and hence I had to get help. Everything else is mine, and the documents are written solely by me also.
 
 
 **Sources Used:**
