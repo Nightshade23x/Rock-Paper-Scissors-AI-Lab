@@ -4,7 +4,7 @@ My project aims to predict the player's next move using patterns from previous r
 
 **RPS_AI**
 
-This was the original building block. This was a single model Markov chain predictor. Each instance stored transitions based on a specific memory length such as 1 previous move. It would update transition frequencies, learn from previous rounds and predict the most likely next move.
+This class is the core building block of the system. It implements a single Markov chain based predictor that learns transition frequencies. Each instance updates transition data from past rounds and predicts the most likely next move by the player. All prediction models of different memory length used in the multi model system are instances of RPS_AI.
 
 **Multi_RPS_AI**
 
@@ -47,13 +47,13 @@ Since all computations are constant time per round, the performance is dominated
 
 **Use of Large Language Models**
 
-I used ChatGPT 5 and 5.1(these were the models in circulation at my time) quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains. It also suggested adding an integration test file which I had not thought of. However, all the code is a 100 percent mine. The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders. This meant that importing ai_code was not working in the test files, and hence I had to get help. Everything else is mine, documents are written solely by me as well.
+I used ChatGPT 5 and 5.1(these were the models in circulation at my time) quite a bit to help plan my project initially and help clarify concepts such as multi Markov chains. It also suggested adding an integration test file which I had not thought of. However, all the code is a 100 percent mine. The only code I used with ChatGPT's help was when I kept facing a bug for unittests due to my test files and ai_code file being in different folders. This meant that importing ai_code was not working in the test files, and hence I had to get help. Everything else is mine, and the documents are written solely by me also.
 
 
 **Sources Used:**
 
 https://arxiv.org/pdf/2003.06769
-This was the paper I used as reference when I switched to a multi model system.
+This is the paper I used as reference when I switched to a multi model system and was the most important source overall.
 
 https://www.geeksforgeeks.org/machine-learning/markov-chain/
 This was used initially to learn about Markov chains.
