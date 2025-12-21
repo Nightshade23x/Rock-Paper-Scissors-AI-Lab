@@ -24,7 +24,7 @@ After each round, the AI will predict your next move and play it against you. Th
 
 **How to read model statistics:**
 
-Each win gives the model a +1,a loss gives -1 and a draw gives 0.So the array that will be visible once you quit the game is the win loss statistics for each model in the last 5 rounds.
+Each win gives the model a +1,a loss gives -1 and a draw gives 0. When the game is quit, the score arrays printed in the terminal represent each model's performance over the last five rounds.
 
 **Ending the game:**
 
