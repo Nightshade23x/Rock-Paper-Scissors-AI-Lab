@@ -112,7 +112,7 @@ Goal: Ensure that update_scores() appends correct values of +1,-1 or 0 to all mo
 
 Method used:
 
-Call ai.update_scores([+1,-1]),and check that all models have the score of +1,-1 exactly
+Call update_model_scores() multiple times with valid player moves and verify that each model receives a score of +1,0 or -1 per round.
 
 Why:
 
