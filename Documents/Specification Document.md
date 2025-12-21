@@ -1,6 +1,6 @@
 I am using Python and I am proficient in it. I can also use SQL and R but out of the two, I am more proficient in SQL.
 
-**My study program is Bachelor of Science(BSc) and the project is done in Python, and the code documentation and the code itself is all in English**
+**My study program is Bachelor of Science(BSc) and the project is done entirely in Python. The code documentation and the code itself is all in English**
 
 **Algorithms I will use:**
 
